@@ -31,15 +31,15 @@ func NewWebService(addr string) *WebService {
 }
 
 func (service *WebService) activateRoutes() *hitch.Hitch {
-	index := func(w http.ResponseWriter, req *http.Request) {
-		web.RespondWithHtml(w, 200, `<html><head><title>TXT-Web</title></head><body>Welcome to TXT-Web!</body></html>`)
-	}
+	// index := func(w http.ResponseWriter, req *http.Request) {
+	// 	web.RespondWithHtml(w, 200, `<html><head><title>TXT-Web</title></head><body>Welcome to TXT-Web!</body></html>`)
+	// }
 	routes := []route.RouteMiddlewareBundle{
 		route.RouteMiddlewareBundle{
 			Middlewares: []func(http.Handler) http.Handler{service.LoggerMiddleware},
 			RouteData: []route.RouteDatum{
-				{"get", "/", index},
-				{"get", "/v1/*url", service.txt},
+				// {"get", "/", index},
+				{"get", "/*url", service.txt},
 			},
 		},
 	}
@@ -56,6 +56,13 @@ func (service *WebService) LoggerMiddleware(next http.Handler) http.Handler {
 
 func (service *WebService) txt(w http.ResponseWriter, req *http.Request) {
 	url := hitch.Params(req).ByName("url")
+	fmt.Println(url)
+
+	if len(url) == 1 {
+		web.RespondWithHtml(w, 200, `<html><head><title>TXT-Web</title></head><body>Welcome to TXT-Web!</body></html>`)
+		return
+	}
+
 	if len(url) > 0 {
 		url = url[1:]
 	}
