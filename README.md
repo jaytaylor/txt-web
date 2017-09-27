@@ -10,10 +10,6 @@
 * Windows
 * Mac OS X / macOs
 
-## Requirements
-
-* [Tesseract OCR](https://github.com/tesseract-ocr/tesseract) must be installed and available on the `$PATH`.
-
 ## Get it
 
     git clone https://github.com/jaytaylor/txt-web
@@ -47,7 +43,7 @@ or for verbose output:
 ## About
 ```(shell)
 NAME:
-   txt-web - Exposes tesseract image OCR as a set of web APIs
+   txt-web
 
 USAGE:
    txt-web [global options] command [command options] [arguments...]
