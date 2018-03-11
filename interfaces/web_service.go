@@ -59,7 +59,53 @@ func (service *WebService) txt(w http.ResponseWriter, req *http.Request) {
 	fmt.Println(url)
 
 	if len(url) == 1 {
-		web.RespondWithHtml(w, 200, `<html><head><title>TXT-Web</title></head><body>Welcome to TXT-Web!</body></html>`)
+		web.RespondWithHtml(w, 200, `<!doctype html>
+<html>
+<head>
+    <title>TXT-Web</title>
+    <meta charset="utf-8">
+    <meta name="author" content="Jay Taylor">
+    <meta name="description" content="Turn any webpage into plaintext">
+</head>
+<body>
+Welcome to TXT-Web!
+<br/>
+<br/>
+Turn any page into plaintext.
+<br/>
+<br/>
+
+<form id="txtWebForm">
+    <input type="text" id="box" autofocus>
+    <button type="submit">Go</button>
+</form>
+
+<script type="text/javascript">
+    function doTxtWeb(e) {
+        // if (e.preventDefault) {
+            e.preventDefault();
+        // }
+        var box = document.getElementById('box');
+        if (box.value.length === 0) {
+            return false;
+        }
+        if (!box.value.toLowerCase().startsWith('http://') && !box.value.toLowerCase().startsWith('https://')) {
+            box.value = 'http://' + box.value;
+        }
+        var txtPage = window.location.protocol + '//' + window.location.host + '/' + box.value;
+        console.log('txtPage=' + txtPage);
+        window.location = txtPage;
+        return false;
+    }
+    var form = document.getElementById('txtWebForm');
+    if (form.attachEvent) {
+        form.attachEvent('submit', doTxtWeb);
+    } else {
+        form.addEventListener('submit', doTxtWeb);
+    }
+</script>
+</body>
+</html>`)
 		return
 	}
 
